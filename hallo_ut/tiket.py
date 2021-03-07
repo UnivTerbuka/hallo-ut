@@ -21,6 +21,18 @@ class Tiket:
     nomer: str
     pesan: str
 
+    def __str__(self) -> str:
+        text = self.judul + "\n"
+        text += f"Nama: {self.nama}\n"
+        text += f"Email: {self.email}\n"
+        text += f"Topik: {self.topik}  "
+        text += f"Nomer Ticket: {self.nomer}\n"
+        text += "Pesan:\n\n" + self.pesan
+        return text
+
+    def __bool__(self) -> bool:
+        return self.status
+
     @classmethod
     def from_noticket(cls, noticket: str) -> "Tiket":
         params = {"noticket": noticket}
