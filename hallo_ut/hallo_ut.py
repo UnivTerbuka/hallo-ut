@@ -3,7 +3,7 @@ import logging
 from fuzzywuzzy import process
 from typing import List
 
-from . import Faq
+from . import Faq, Tiket
 from .utils import save_faqs, load_faqs
 
 
@@ -23,6 +23,9 @@ class HalloUt:
         )
         self.logger.debug(f"Ditemukan {len(best_faq)} kemungkinan jawaban")
         return [self.faqs[z] for (x, y, z) in best_faq] if best_faq else []
+
+    def tiket(self, noticket: str) -> Tiket:
+        return Tiket.from_noticket(noticket=noticket)
 
     @staticmethod
     def load_faqs() -> List[Faq]:
