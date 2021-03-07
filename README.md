@@ -20,5 +20,5 @@ pip install --upgrade hallo-ut
 Penggunaan sederhana
 
 ```bash
-python -m hallo-ut "pertanyaan anda"
+python -m hallo-ut "pertanyaan anda atau tiket hallo-ut anda"
 ```
