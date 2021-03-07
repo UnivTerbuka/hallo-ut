@@ -1,3 +1,4 @@
+import attr
 import json
 import os
 
@@ -7,9 +8,14 @@ from . import Faq
 from .constants import CACHE_FAQ_FILEPATH
 
 
+def faqs_to_json(faqs: List["Faq"]) -> List[dict]:
+    return [attr.asdict(faq) for faq in faqs]
+
+
 def save_faqs(faqs: List["Faq"]):
+    faqs_json = faqs_to_json(faqs)
     with open(CACHE_FAQ_FILEPATH, "w") as fp:
-        json.dump(faqs, fp)
+        json.dump(faqs_json, fp)
 
 
 def load_faqs() -> Optional[List["Faq"]]:
