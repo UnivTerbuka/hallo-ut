@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from typing import List
 
-from .constants import FAQ_PAGE_URL, IGNORED_TAGS, BLEACH_CONFIG
+from .constants import FAQ_PAGE_URL, IGNORED_TAGS
 
 
 def parse_contents(contents: Tag, ignored_tags: List[str] = IGNORED_TAGS) -> str:
