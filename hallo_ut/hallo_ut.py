@@ -8,7 +8,7 @@ from . import Faq
 class HalloUt:
     def __init__(self):
         self.faqs = Faq.fetch_faqs()
-        self.faq_q_dict = dict(enumerate([faq.question for faq in self.faq]))
+        self.faq_q_dict = dict(enumerate([faq.question for faq in self.faqs]))
 
     def __call__(self, query: str, limit: int = 10) -> List[Faq]:
         return self.faq(query, limit)
