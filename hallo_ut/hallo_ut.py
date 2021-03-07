@@ -10,10 +10,7 @@ from .utils import save_faqs, load_faqs
 class HalloUt:
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        faqs = load_faqs()
-        if not faqs:
-            faqs = Faq.fetch_faqs()
-        self.faqs = faqs
+        self.faqs = self.load_faqs()
         self.faq_q_dict = dict(enumerate([faq.question for faq in self.faqs]))
 
     def __call__(self, query: str, limit: int = 10) -> List[Faq]:
@@ -26,3 +23,12 @@ class HalloUt:
         )
         self.logger.debug(f"Ditemukan {len(best_faq)} kemungkinan jawaban")
         return [self.faqs[z] for (x, y, z) in best_faq] if best_faq else []
+
+    @staticmethod
+    def load_faqs() -> List[Faq]:
+        faqs = load_faqs()
+        if faqs:
+            return faqs
+        faqs = Faq.fetch_faqs()
+        save_faqs(faqs)
+        return faqs
