@@ -22,7 +22,7 @@ class Tiket:
     pesan: str
 
     def __str__(self) -> str:
-        text = self.judul + "\n"
+        text = f"Judul: {self.judul}\n"
         text += f"Nama: {self.nama}\n"
         text += f"Email: {self.email}\n"
         text += f"Topik: {self.topik}  "
@@ -41,20 +41,21 @@ class Tiket:
             raise ValueError("Tiket tidak ditemukan atau Hallo-ut tidak bisa dihubungi")
         soup = BeautifulSoup(res.text, "html.parser")
         status = status_from_page_top(soup.find("section", class_="page-top"))
-        return cls.from_tbody(
-            tbody=soup.find("tbody"),
+        return cls.from_table(
+            table=soup.find("table"),
             status=status,
         )
 
     @classmethod
-    def from_tbody(cls, tbody: Tag, status: bool) -> "Tiket":
+    def from_table(cls, table: Tag, status: bool) -> "Tiket":
+        tr_tags: Tag = table.find_all("tr")
         judul, nama, email, topik, nomer, pesan = "", "", "", "", "", ""
-        nama = tbody.contents[0].contents[2].getText()
-        judul = tbody.contents[0].contents[6].getText()
-        email = tbody.contents[1].contents[2].getText()
-        topik = tbody.contents[1].contents[6].getText()
-        nomer = tbody.contents[2].contents[2].getText()
-        pesan = tbody.contents[2].contents[6]
+        nama = tr_tags[0].contents[5].getText()
+        judul = tr_tags[0].contents[13].getText()
+        email = tr_tags[1].contents[5].getText()
+        topik = tr_tags[1].contents[13].getText()
+        nomer = tr_tags[2].contents[5].getText()
+        pesan = str(tr_tags[2].contents[13])
         return cls(
             status=status,
             judul=judul,
