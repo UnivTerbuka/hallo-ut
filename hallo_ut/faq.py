@@ -1,9 +1,10 @@
 import attr
+import bleach
 import requests
 from bs4 import BeautifulSoup, Tag
 from typing import List
 
-from .constants import FAQ_PAGE_URL, IGNORED_TAGS
+from .constants import FAQ_PAGE_URL, IGNORED_TAGS, BLEACH_CONFIG
 
 
 def parse_contents(contents: Tag, ignored_tags: List[str] = IGNORED_TAGS) -> str:
@@ -32,7 +33,11 @@ class Faq:
     link: str
 
     def __str__(self) -> str:
-        return f"Q: {self.question}\nA: {self.answer}\nSumber: {self.link}"
+        return f"Q: {self.question}\nA: {self.bleached_answer}\nSumber: {self.link}"
+
+    @property
+    def bleached_answer(self) -> str:
+        return bleach.clean(self.answer, strip=True)
 
     @property
     def html(self) -> str:
@@ -44,10 +49,10 @@ class Faq:
     def from_panel(cls, panel: Tag, url: str) -> "Faq":
         a = panel.find("a")
         body = panel.find("div", class_="panel-body")
-        answer = parse_contents(body)
+        contents = parse_contents(body)
         return Faq(
             question=a.get_text(strip=True),
-            answer=answer or str(body),
+            answer=contents or str(body),
             link=url + a["href"],
         )
 
