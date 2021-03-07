@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "hallo-ut"
 version = "0.2.0"
-description = ""
+description = "SDK Python Layanan Informasi & Bantuan Universitas Terbuka"
 authors = ["hexatester <habibrohman@protonmail.com>"]
 readme = "README.md"
 keywords = [
