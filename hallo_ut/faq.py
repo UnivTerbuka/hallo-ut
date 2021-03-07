@@ -3,13 +3,10 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from typing import List
 
-from .constants import FAQ_PAGE_URL
+from .constants import FAQ_PAGE_URL, IGNORED_TAGS
 
 
-ignored_tags = ["a", "b", "u", "i", "s", "code", "pre"]
-
-
-def parse_contents(contents: Tag) -> str:
+def parse_contents(contents: Tag, ignored_tags: List[str] = IGNORED_TAGS) -> str:
     text = ""
     for content in contents:
         if isinstance(content, Tag):
