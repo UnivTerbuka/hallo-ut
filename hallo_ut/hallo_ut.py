@@ -4,12 +4,16 @@ from fuzzywuzzy import process
 from typing import List
 
 from . import Faq
+from .utils import save_faqs, load_faqs
 
 
 class HalloUt:
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.faqs = Faq.fetch_faqs()
+        faqs = load_faqs()
+        if not faqs:
+            faqs = Faq.fetch_faqs()
+        self.faqs = faqs
         self.faq_q_dict = dict(enumerate([faq.question for faq in self.faqs]))
 
     def __call__(self, query: str, limit: int = 10) -> List[Faq]:
