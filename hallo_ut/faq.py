@@ -57,7 +57,7 @@ class Faq:
         res = requests.get(url)
         if not res.ok:
             pass
-        soup = BeautifulSoup(res.text, "lxml").find(
+        soup = BeautifulSoup(res.text, "html.parser").find(
             "div", {"id": "accordion2", "class": "panel-group"}
         )
         for panel in soup.findAll("div", class_=["panel", "panel-primary"]):
