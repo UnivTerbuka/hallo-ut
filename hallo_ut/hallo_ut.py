@@ -24,7 +24,7 @@ class HalloUt:
         self.logger.debug(f"Ditemukan {len(best_faq)} kemungkinan jawaban")
         return [self.faqs[z] for (x, y, z) in best_faq] if best_faq else []
 
-    def tiket(self, noticket: str) -> Tiket:
+    def status_tiket(self, noticket: str) -> Tiket:
         return Tiket.from_noticket(noticket=noticket)
 
     @staticmethod
