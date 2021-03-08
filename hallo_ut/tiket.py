@@ -1,9 +1,10 @@
 import attr
+import bleach
 import requests
 from bs4 import BeautifulSoup, Tag
 from typing import List
 
-from .constants import STATUS_TIKET_URL
+from .constants import STATUS_TIKET_URL, IGNORED_TAGS
 
 
 def status_from_page_top(section: Tag) -> bool:
@@ -23,15 +24,32 @@ class Tiket:
 
     def __str__(self) -> str:
         text = f"Judul: {self.judul}\n"
+        text += "Status: "
+        if self.status:
+            text += "OPEN\n"
+        else:
+            text += "CLOSE\n"
         text += f"Nama: {self.nama}\n"
         text += f"Email: {self.email}\n"
-        text += f"Topik: {self.topik}  "
+        text += f"Topik: {self.topik}\n"
         text += f"Nomer Ticket: {self.nomer}\n"
-        text += "Pesan:\n\n" + self.pesan
+        text += "Pesan:\n\n" + self.clean_pesan
         return text
 
     def __bool__(self) -> bool:
         return self.status
+
+    @property
+    def clean_pesan(self) -> str:
+        return bleach.clean(
+            text=self.pesan.replace("<br/>", "\n"),
+            tags=IGNORED_TAGS,
+            strip=True,
+        )
+
+    @property
+    def url(self) -> str:
+        return f"http://hallo-ut.ut.ac.id/status?noticket={self.nomer}"
 
     @classmethod
     def from_noticket(cls, noticket: str) -> "Tiket":
