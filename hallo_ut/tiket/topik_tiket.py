@@ -2,7 +2,6 @@ from enum import Enum
 
 
 class TopikTiket(Enum):
-    _init_ = "value string"
     INFO_UT = 1, "Info UT"
     IJAZAH = 8, "Ijazah"
     BEASISWA = 9, "Beasiswa"
@@ -50,4 +49,8 @@ class TopikTiket(Enum):
     UANG_KULIAH_SPP = 99, "Uang kuliah/SPP"
 
     def __str__(self) -> str:
-        return self.string  # type: ignore
+        return self.value[1]
+
+    @property
+    def id(self) -> int:
+        return self.value[0]
