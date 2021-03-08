@@ -2,10 +2,11 @@ import attr
 import bleach
 import requests
 from bs4 import BeautifulSoup, Tag
+from enum import Enum
 from requests_toolbelt import MultipartEncoder
 from typing import List, Optional, BinaryIO
 
-from .constants import STATUS_TIKET_URL, IGNORED_TAGS
+from hallo_ut.constants import STATUS_TIKET_URL, IGNORED_TAGS
 
 
 def status_from_page_top(section: Tag) -> bool:
