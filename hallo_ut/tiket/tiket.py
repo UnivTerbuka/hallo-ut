@@ -123,6 +123,7 @@ class Tiket(BaseTiket):
         res = session.get("http://hallo-ut.ut.ac.id/create/ticket")
         if not res.ok or not res.text:
             raise Exception("Hallo-ut tidak dapat dihubungi")
+        # TODO : Tambah 3 file gambar ke fields
         fields = {
             "fullname": fullname,
             "email": email,
