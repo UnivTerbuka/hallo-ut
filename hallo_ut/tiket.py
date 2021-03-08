@@ -2,7 +2,8 @@ import attr
 import bleach
 import requests
 from bs4 import BeautifulSoup, Tag
-from typing import List
+from requests_toolbelt import MultipartEncoder
+from typing import List, Optional, BinaryIO
 
 from .constants import STATUS_TIKET_URL, IGNORED_TAGS
 
@@ -95,3 +96,41 @@ class Tiket:
             nomer=nomer,
             pesan=pesan,
         )
+
+    @classmethod
+    def create(
+        cls,
+        fullname: str,
+        email: str,
+        nohp: str,
+        topik_id: int,
+        priority_id: int,
+        subject: str,
+        description: str,
+        nim: Optional[str] = None,
+        userfile: Optional[List[BinaryIO]] = None,
+    ) -> "Tiket":
+        session = requests.Session()
+        res = session.get("http://hallo-ut.ut.ac.id/create/ticket")
+        if not res.ok or not res.text:
+            raise Exception("Hallo-ut tidak dapat dihubungi")
+        fields = {
+            "fullname": fullname,
+            "email": email,
+            "nohp": nohp,
+            "topik_id": topik_id,
+            "priority_id": priority_id,
+            "subject": subject,
+            "description": description,
+            "nim": nim or "",
+        }
+        m = MultipartEncoder(fields)
+        headers = {"Content-Type": m.content_type}
+        res = requests.post(
+            url="http://hallo-ut.ut.ac.id/ticket/post",
+            data=m.to_string(),
+            headers=headers,
+        )
+        if "=" not in res.url:
+            raise Exception("Data yang dikirim tidak valid!")
+        return cls.from_noticket(res.url.split("=")[-1])
