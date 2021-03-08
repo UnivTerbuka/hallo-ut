@@ -130,7 +130,7 @@ class Tiket(BaseTiket):
             "topik_id": str(topik.id),
             "priority_id": str(priority.id),
             "subject": subject,
-            "description": description,
+            "Description": description,
             "nim": str(nim or ""),
         }
         m = MultipartEncoder(fields)
