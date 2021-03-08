@@ -2,7 +2,6 @@ import attr
 import bleach
 import requests
 from bs4 import BeautifulSoup, Tag
-from enum import Enum
 from requests_toolbelt import MultipartEncoder
 from typing import List, Optional, BinaryIO
 
