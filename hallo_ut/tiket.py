@@ -40,6 +40,18 @@ class Tiket:
         return self.status
 
     @property
+    def html(self) -> str:
+        text = f'<a href="{self.url}">{self.judul}</a> [(]{self.topik}]\n'
+        text += f"Status: {self.status_text} | Nomor: {self.nomer}\n"
+        text += f"Nama: {self.nama} | Email: {self.email}\n"
+        text += f"Pesan: {self.clean_pesan}"
+        return text
+
+    @property
+    def status_text(self) -> str:
+        return "OPEN" if self.status else "CLOSE"
+
+    @property
     def clean_pesan(self) -> str:
         return bleach.clean(
             text=self.pesan.replace("<br/>", "\n"),
