@@ -41,6 +41,7 @@ pytest==5.4.3; python_version >= "3.5"
 python-dotenv==0.15.0
 pyyaml==5.4.1; python_full_version >= "3.6.1"
 regex==2020.11.13; python_version >= "3.6"
+requests-toolbelt==0.9.1
 requests==2.25.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 six==1.15.0; python_full_version >= "3.6.1"
 soupsieve==2.2; python_version >= "3.6"
