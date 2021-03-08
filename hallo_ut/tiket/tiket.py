@@ -14,8 +14,13 @@ def status_from_page_top(section: Tag) -> bool:
     return "OPEN" in span.getText()
 
 
+class BaseTiket:
+    TOPIK = TopikTiket
+    PRIORITY = PriorityTiket
+
+
 @attr.dataclass(slots=True)
-class Tiket:
+class Tiket(BaseTiket):
     status: bool
     judul: str
     nama: str
@@ -112,6 +117,9 @@ class Tiket:
         userfile: Optional[List[BinaryIO]] = None,
     ) -> "Tiket":
         session = requests.Session()
+        session.headers[
+            "User-Agent"
+        ] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0"
         res = session.get("http://hallo-ut.ut.ac.id/create/ticket")
         if not res.ok or not res.text:
             raise Exception("Hallo-ut tidak dapat dihubungi")
@@ -119,21 +127,22 @@ class Tiket:
             "fullname": fullname,
             "email": email,
             "nohp": nohp,
-            "topik_id": topik.value,
-            "priority_id": priority.value,
+            "topik_id": str(topik.id),
+            "priority_id": str(priority.id),
             "subject": subject,
             "description": description,
-            "nim": nim or "",
+            "nim": str(nim or ""),
         }
         m = MultipartEncoder(fields)
-        headers = {"Content-Type": m.content_type}
-        res = requests.post(
+        headers = {
+            "Content-Type": m.content_type,
+            "Referer": res.url,
+        }
+        res = session.post(
             url="http://hallo-ut.ut.ac.id/ticket/post",
             data=m.to_string(),
             headers=headers,
         )
-        if not res.ok:
-            raise Exception("Hallo-ut tidak merespon")
         if "=" not in res.url:
             raise Exception("Data yang dikirim tidak valid!")
         return cls.from_noticket(res.url.split("=")[-1])
