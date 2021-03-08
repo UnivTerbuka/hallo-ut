@@ -6,6 +6,7 @@ from requests_toolbelt import MultipartEncoder
 from typing import List, Optional, BinaryIO
 
 from hallo_ut.constants import STATUS_TIKET_URL, IGNORED_TAGS
+from . import TopikTiket, PriorityTiket
 
 
 def status_from_page_top(section: Tag) -> bool:
@@ -103,8 +104,8 @@ class Tiket:
         fullname: str,
         email: str,
         nohp: str,
-        topik_id: int,
-        priority_id: int,
+        topik: TopikTiket,
+        priority: PriorityTiket,
         subject: str,
         description: str,
         nim: Optional[str] = None,
@@ -118,8 +119,8 @@ class Tiket:
             "fullname": fullname,
             "email": email,
             "nohp": nohp,
-            "topik_id": topik_id,
-            "priority_id": priority_id,
+            "topik_id": topik.value,
+            "priority_id": priority.value,
             "subject": subject,
             "description": description,
             "nim": nim or "",
