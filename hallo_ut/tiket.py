@@ -131,6 +131,8 @@ class Tiket:
             data=m.to_string(),
             headers=headers,
         )
+        if not res.ok:
+            raise Exception("Hallo-ut tidak merespon")
         if "=" not in res.url:
             raise Exception("Data yang dikirim tidak valid!")
         return cls.from_noticket(res.url.split("=")[-1])
