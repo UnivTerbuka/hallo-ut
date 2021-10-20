@@ -4,7 +4,7 @@ from .hallo_ut import HalloUt
 
 
 __author__ = "hexatester <habibrohman@protonmail.com>"
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 
 __all__ = ["Faq", "Tiket", "HalloUt"]
