@@ -59,7 +59,7 @@ class Faq:
     @classmethod
     def fetch_faqs(cls, url: str = FAQ_PAGE_URL) -> List["Faq"]:
         results: List["Faq"] = list()
-        res = requests.get(url)
+        res = requests.get(url, verify=False)
         if not res.ok:
             pass
         soup = BeautifulSoup(res.text, "html.parser").find(

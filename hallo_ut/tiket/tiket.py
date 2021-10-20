@@ -73,7 +73,7 @@ class Tiket(BaseTiket):
     @classmethod
     def from_noticket(cls, noticket: str) -> "Tiket":
         params = {"noticket": noticket}
-        res = requests.get(STATUS_TIKET_URL, params=params)
+        res = requests.get(STATUS_TIKET_URL, params=params, verify=False)
         if not res.ok or not res.text or "Tiket Tidak Ditemukan" in res.text:
             raise ValueError("Tiket tidak ditemukan atau Hallo-ut tidak bisa dihubungi")
         soup = BeautifulSoup(res.text, "html.parser")
