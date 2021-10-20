@@ -8,5 +8,6 @@ HOME_DIR = os.environ.get("HALLO_UT_HOME") or os.path.join(
 )
 if not os.path.isdir(HOME_DIR):
     from pathlib import Path
+
     Path(HOME_DIR).mkdir(parents=True, exist_ok=True)
 CACHE_FAQ_FILEPATH = os.path.join(HOME_DIR, "faq.json")
